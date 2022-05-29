@@ -2,7 +2,6 @@ const Express=require("express")
 const Mongoose=require("mongoose")
 const Bodyparser=require("body-parser")
 const res = require("express/lib/response")
-
 let app=Express()
 
 app.use(Bodyparser.urlencoded({extended:true}))
@@ -46,7 +45,32 @@ res.send({"status":"success","data":data})
 }
 })
 })
-
+app.post("/api/searchbus",(req,res)=>{
+    var getRoute=req.body
+busModel.find(getRoute,(error,data)=>{
+if(error)
+{
+    res.send({"status":"error","data":error})
+}
+else
+{
+    res.send({"status":"success","data":data})
+}
+})
+})
+app.post("/api/delete",(req,res)=>{
+var getID=req.body
+busModel.findByIdAndRemove(getID,(error,data)=>{
+    if(error)
+    {
+        res.send({"status":"error","data":error})
+    }
+    else
+    {
+        res.send({"status":"success","data":data})
+    }
+})
+})
 
 app.get("/api/viewbus",(req,res)=>{
 busModel.find((error,data)=>{
